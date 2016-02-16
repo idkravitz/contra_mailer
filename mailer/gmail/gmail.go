@@ -44,29 +44,6 @@ func encodeWeb64String(b []byte) string {
 
 // CreateMailer is a constructor for gmail.Mailer
 func CreateMailer(clientSecretFilename string, credentialsFilename string) (m *Mailer, err error) {
-	// ctx := context.Background()
-	//
-	// b, err := ioutil.ReadFile("client_secret.json")
-	// if err != nil {
-	//   log.Fatalf("Unable to read client secret file: %v", err)
-	// }
-	//
-	// // If modifying these scopes, delete your previously saved credentials
-	// // at ~/.credentials/gmail-go-quickstart.json
-	// config, err := google.ConfigFromJSON(b, gmail.GmailSendScope)
-	// if err != nil {
-	//   log.Fatalf("Unable to parse client secret file to config: %v", err)
-	// }
-	// client := getClient(ctx, config)
-	//
-	// srv, err := gmail.New(client)
-	// if err != nil {
-	//   log.Fatalf("Unable to retrieve gmail Client %v", err)
-	// }
-	//
-	// // user := "me"
-	// from := mail.Address{Name: "CONTRA service", Address: "cubadvfu@gmail.com"}
-	// to := mail.Address{Name: "idkravitz", Address: "idkravitz@gmail.com"}
 	b, err := ioutil.ReadFile(clientSecretFilename)
 	if err != nil {
 		return nil, err
