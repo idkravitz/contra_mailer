@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <title>Welcome to CONTRA, {{ .Username }}</title>
+</head>
+<body>
+  <h1>Greetings, {{ .Username }}!</h1>
+  <p>You were notified that you were registered in CONTRA computation service</p>
+  <p>You can start using our service, by clicking on the following link</p><br/>
+  <a href="{{ .Homepage }}">{{ .Homepage }}</a>
+  <p>You can ask us any questions or give us any suggestions about service improval
+    using this e-mail address: <a href="mail-to:{{ .SupportEmail }}">{{ .SupportEmail }}</a></p>
+</body>
+</html>
