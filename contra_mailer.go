@@ -108,14 +108,4 @@ func main() {
 
 	app.sendGreetings("idkravitz", "idkravitz@gmail.com")
 	fmt.Printf("Sent grettings to idkravitz!")
-
-	// output, err := app.renderTemplate("greet.tmpl", &greetData{
-	// Username:     "idkravitz",
-	// Homepage:     config.Homepage,
-	// SupportEmail: config.SupportEmail,
-	// })
-	// if err != nil {
-	// log.Fatalf("Template parse failed: %v", err)
-	// }
-	// fmt.Print(string(output))
 }
