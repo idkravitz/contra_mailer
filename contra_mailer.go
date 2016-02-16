@@ -17,6 +17,8 @@ import (
 type mailerConfig struct {
 	Homepage     string `json:"homepage"`
 	SupportEmail string `json:"support_email"`
+	// GmailUsername string `json:"gmail_username"`
+	// GmailPassword string `json:"gmail_password"`
 }
 
 type greetData struct {
@@ -97,6 +99,7 @@ func main() {
 		log.Fatal(err)
 	}
 	m, err := gmail.CreateMailer("client_secret.json", "credentials.json")
+	// m := gsmtp.CreateMailer(config.GmailUsername, config.GmailPassword, "smtp.gmail.com", "587")
 	if err != nil {
 		log.Fatal(err)
 	}
