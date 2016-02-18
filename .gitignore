@@ -26,3 +26,5 @@ _testmain.go
 config.json
 credentials.json
 client_secret.json
+vendor/
+glide.lock
