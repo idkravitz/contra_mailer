@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"flag"
 	"fmt"
 	"html/template"
 	"io/ioutil"
@@ -18,8 +19,12 @@ import (
 )
 
 type mailerConfig struct {
-	Homepage     string `json:"homepage"`
-	SupportEmail string `json:"support_email"`
+	Homepage             string `json:"homepage"`
+	SupportEmail         string `json:"support_email"`
+	GmailAPIClientSecret string `json:"gmail_api_client_secret"`
+	GmailAPICredentials  string `json:"gmail_api_credentials"`
+	// GmailUsername string `json:"gmail_username"`
+	// GmailPassword string `json:"gmail_password"`
 }
 
 type greetData struct {
@@ -55,8 +60,8 @@ func (app *mailerApp) renderTemplate(templateName string, data interface{}) (out
 	return string(bOutput), err
 }
 
-func readConfig() (config *mailerConfig, err error) {
-	inh, err := os.Open("./config.json")
+func readConfig(configFile string) (config *mailerConfig, err error) {
+	inh, err := os.Open(configFile)
 	if err != nil {
 		return nil, err
 	}
@@ -106,11 +111,15 @@ func main() {
 		log.Fatal(err)
 	}
 
-	config, err := readConfig()
+	configFile := flag.String("config", "./config.json", "config.json location")
+	flag.Parse()
+
+	config, err := readConfig(*configFile)
 	if err != nil {
 		log.Fatal(err)
 	}
-	m, err := gmail.CreateMailer("client_secret.json", "credentials.json")
+	m, err := gmail.CreateMailer(config.GmailAPIClientSecret, config.GmailAPICredentials)
+	// m := gsmtp.CreateMailer(config.GmailUsername, config.GmailPassword, "smtp.gmail.com", "587")
 	if err != nil {
 		log.Fatal(err)
 	}

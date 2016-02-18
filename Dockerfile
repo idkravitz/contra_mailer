@@ -16,9 +16,9 @@ RUN mkdir -p bin pkg templates src/github.com/kravitz/contra_mailer && go get gi
 
 ADD . src/github.com/kravitz/contra_mailer/
 
-ADD config.json config.json
-ADD credentials.json credentials.json
-ADD client_secret.json client_secret.json
+# ADD config.json config.json
+# ADD credentials.json credentials.json
+# ADD client_secret.json client_secret.json
 
 ADD templates/ templates/
 
