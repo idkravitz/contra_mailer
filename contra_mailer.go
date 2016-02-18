@@ -10,8 +10,11 @@ import (
 	"net/mail"
 	"os"
 
+	"github.com/kravitz/contra_lib/db"
+	"github.com/kravitz/contra_lib/util"
 	"github.com/kravitz/contra_mailer/mailer"
 	"github.com/kravitz/contra_mailer/mailer/gmail"
+	"github.com/streadway/amqp"
 )
 
 type mailerConfig struct {
@@ -29,6 +32,7 @@ type mailerApp struct {
 	templatesPool map[string]*template.Template
 	config        *mailerConfig
 	mailSender    mailer.Mailer
+	qCon          *amqp.Connection
 }
 
 func (app *mailerApp) renderTemplate(templateName string, data interface{}) (output string, err error) {
@@ -92,6 +96,16 @@ func (app *mailerApp) sendGreetings(username string, email string) {
 }
 
 func main() {
+	rabbitUser := util.GetenvDefault("RABBIT_USER", "guest")
+	rabbitPassword := util.GetenvDefault("RABBIT_PASSWORD", "guest")
+
+	amqpSocket := fmt.Sprintf("amqp://%v:%v@tram-rabbit:5672", rabbitUser, rabbitPassword)
+	amqpCon, err := db.RabbitInitConnect(amqpSocket)
+
+	if err != nil {
+		log.Fatal(err)
+	}
+
 	config, err := readConfig()
 	if err != nil {
 		log.Fatal(err)
@@ -104,6 +118,7 @@ func main() {
 		templatesPool: map[string]*template.Template{},
 		config:        config,
 		mailSender:    m,
+		qCon:          amqpCon,
 	}
 
 	app.sendGreetings("idkravitz", "idkravitz@gmail.com")

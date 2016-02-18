@@ -8,11 +8,11 @@ USER contra
 WORKDIR /home/contra
 ENV GOPATH /home/contra
 
-RUN mkdir -p bin pkg templates src/github.com/kravitz/contra_mailer
-RUN go get -u	golang.org/x/net/context && \
-	  go get -u golang.org/x/oauth2 && \
-	  go get -u golang.org/x/oauth2/google && \
-	  go get -u google.golang.org/api/gmail/v1
+RUN mkdir -p bin pkg templates src/github.com/kravitz/contra_mailer && go get github.com/Masterminds/glide
+# RUN go get -u	golang.org/x/net/context && \
+# 	  go get -u golang.org/x/oauth2 && \
+# 	  go get -u golang.org/x/oauth2/google && \
+# 	  go get -u google.golang.org/api/gmail/v1
 
 ADD . src/github.com/kravitz/contra_mailer/
 
@@ -22,6 +22,7 @@ ADD client_secret.json client_secret.json
 
 ADD templates/ templates/
 
+RUN cd src/github.com/kravitz/contra_mailer && [ -d vendor ] || ~/bin/glide up
 RUN go install github.com/kravitz/contra_mailer
 
 ENTRYPOINT ["./bin/contra_mailer"]
